@@ -1,8 +1,10 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('lodash.debounce'), require('@angular/platform-browser')) :
 	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', 'lodash.debounce', '@angular/platform-browser'], factory) :
-	(factory((global['ngx-image-gallery'] = {}),global.core,global.common,global.lodash_debounce,global.platformBrowser));
-}(this, (function (exports,core,common,lodash_debounce,platformBrowser) { 'use strict';
+	(factory((global['ngx-image-gallery'] = {}),global.core,global.common,global.debounce,global.platformBrowser));
+}(this, (function (exports,core,common,debounce,platformBrowser) { 'use strict';
+
+debounce = debounce && debounce.hasOwnProperty('default') ? debounce['default'] : debounce;
 
 var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -69,15 +71,15 @@ var NgxImageGalleryComponent = (function () {
         // thumbnail margin and scroll position
         this.thumbnailMargin = '0px 8px';
         this.thumbnailsScrollerLeftMargin = '0px';
-        this.fitThumbnails = lodash_debounce.debounce(function () {
+        this.fitThumbnails = debounce(function () {
             // if thumbnails not visible, return false
             if (_this.conf.showThumbnails == false)
                 return false;
             var /** @type {?} */ thumbnailParams = _this.thumbnailsRenderParams;
             _this.thumbnailMargin = '0 ' + (thumbnailParams.newThumbnailMargin / 2) + 'px';
         }, 300);
-        this.debouncedPrev = lodash_debounce.debounce(function () { return _this.prev(); }, 100, { 'leading': true, 'trailing': false });
-        this.debouncedNext = lodash_debounce.debounce(function () { return _this.next(); }, 100, { 'leading': true, 'trailing': false });
+        this.debouncedPrev = debounce(function () { return _this.prev(); }, 100, { 'leading': true, 'trailing': false });
+        this.debouncedNext = debounce(function () { return _this.next(); }, 100, { 'leading': true, 'trailing': false });
     }
     Object.defineProperty(NgxImageGalleryComponent.prototype, "activeImage", {
         /**

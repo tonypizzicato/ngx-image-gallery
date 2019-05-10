@@ -1,6 +1,6 @@
 import { Component, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, NgModule, Output, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { debounce } from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import { DomSanitizer } from '@angular/platform-browser';
 
 var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {

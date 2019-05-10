@@ -13,7 +13,7 @@ import {
     ViewChild
 } from '@angular/core';
 
-import {debounce} from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 
 import {GALLERY_CONF, GALLERY_IMAGE} from '../../ngx-image-gallery.conf';
 import { DomSanitizer } from '@angular/platform-browser';
