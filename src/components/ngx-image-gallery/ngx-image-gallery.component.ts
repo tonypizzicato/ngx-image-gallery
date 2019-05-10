@@ -13,7 +13,7 @@ import {
     ViewChild
 } from '@angular/core';
 
-import {assign, findIndex, debounce} from 'lodash';
+import {debounce} from 'lodash.debounce';
 
 import {GALLERY_CONF, GALLERY_IMAGE} from '../../ngx-image-gallery.conf';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -138,7 +138,7 @@ export class NgxImageGalleryComponent implements OnInit, OnChanges {
 
     // set gallery configuration
     private setGalleryConf(conf: GALLERY_CONF) {
-        this.conf = assign(DEFAULT_CONF, conf);
+        this.conf = { ...DEFAULT_CONF, ...conf} ;
     }
 
     // load image and return promise

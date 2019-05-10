@@ -1,8 +1,16 @@
 import { Component, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, NgModule, Output, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { assign, debounce } from 'lodash';
+import { debounce } from 'lodash.debounce';
 import { DomSanitizer } from '@angular/platform-browser';
 
+var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 // key codes to react
 var KEY_CODES = {
     37: 'LEFT',
@@ -142,7 +150,7 @@ var NgxImageGalleryComponent = (function () {
      * @return {?}
      */
     NgxImageGalleryComponent.prototype.setGalleryConf = function (conf) {
-        this.conf = assign(DEFAULT_CONF, conf);
+        this.conf = __assign({}, DEFAULT_CONF, conf);
     };
     /**
      * @param {?} index
@@ -205,34 +213,6 @@ var NgxImageGalleryComponent = (function () {
         this.thumbnailsScrollerLeftMargin = thumbnailParams.thumbnailsScrollerLeftMargin;
     };
     /**
-     * @param {?} event
-     * @return {?}
-     */
-    NgxImageGalleryComponent.prototype.onKeyboardInput = function (event) {
-        if (this.conf.reactToKeyboard && this.opened && !this.loading) {
-            if (KEY_CODES[event.keyCode] == 'RIGHT') {
-                this.next();
-            }
-            else if (KEY_CODES[event.keyCode] == 'LEFT') {
-                this.prev();
-            }
-            else if ((KEY_CODES[event.keyCode] == 'ESC') && this.conf.closeOnEsc) {
-                this.close();
-            }
-        }
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NgxImageGalleryComponent.prototype.onWindowResize = function (event) {
-        var _this = this;
-        if (this.opened && !this.loading) {
-            this.fitThumbnails();
-            setTimeout(function () { return _this.scrollThumbnails(); }, 300);
-        }
-    };
-    /**
      * @return {?}
      */
     NgxImageGalleryComponent.prototype.ngOnInit = function () {
@@ -268,6 +248,34 @@ var NgxImageGalleryComponent = (function () {
             if (this.images.length) {
                 this.activateImage(0);
             }
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NgxImageGalleryComponent.prototype.onKeyboardInput = function (event) {
+        if (this.conf.reactToKeyboard && this.opened && !this.loading) {
+            if (KEY_CODES[event.keyCode] == 'RIGHT') {
+                this.next();
+            }
+            else if (KEY_CODES[event.keyCode] == 'LEFT') {
+                this.prev();
+            }
+            else if ((KEY_CODES[event.keyCode] == 'ESC') && this.conf.closeOnEsc) {
+                this.close();
+            }
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NgxImageGalleryComponent.prototype.onWindowResize = function (event) {
+        var _this = this;
+        if (this.opened && !this.loading) {
+            this.fitThumbnails();
+            setTimeout(function () { return _this.scrollThumbnails(); }, 300);
         }
     };
     /**

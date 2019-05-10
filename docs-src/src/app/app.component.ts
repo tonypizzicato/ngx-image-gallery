@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxImageGalleryComponent, GALLERY_IMAGE, GALLERY_CONF } from "ngx-image-gallery";
 import { NgForm } from "@angular/forms";
-import _ from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -109,7 +108,7 @@ export class AppComponent implements OnInit {
     imagePointer: true
   };
 
-  range = _.range;
+  range = (from, to) =>[...Array(to).keys()].map(i => from + i);
 
   constructor(){}
 

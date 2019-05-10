@@ -84,6 +84,6 @@
   "typings": "dist/ngx-image-gallery.d.ts",
   "dependencies": {
     "hammerjs": "^2.0.8",
-    "lodash": "^4.17.4"
+    "lodash.debounce": "^4.0.8"
   }
 }

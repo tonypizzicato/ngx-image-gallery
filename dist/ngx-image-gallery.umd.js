@@ -1,9 +1,17 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('lodash'), require('@angular/platform-browser')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', 'lodash', '@angular/platform-browser'], factory) :
-	(factory((global['ngx-image-gallery'] = {}),global.core,global.common,global.lodash,global.platformBrowser));
-}(this, (function (exports,core,common,lodash,platformBrowser) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('lodash.debounce'), require('@angular/platform-browser')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', 'lodash.debounce', '@angular/platform-browser'], factory) :
+	(factory((global['ngx-image-gallery'] = {}),global.core,global.common,global.lodash_debounce,global.platformBrowser));
+}(this, (function (exports,core,common,lodash_debounce,platformBrowser) { 'use strict';
 
+var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 // key codes to react
 var KEY_CODES = {
     37: 'LEFT',
@@ -61,15 +69,15 @@ var NgxImageGalleryComponent = (function () {
         // thumbnail margin and scroll position
         this.thumbnailMargin = '0px 8px';
         this.thumbnailsScrollerLeftMargin = '0px';
-        this.fitThumbnails = lodash.debounce(function () {
+        this.fitThumbnails = lodash_debounce.debounce(function () {
             // if thumbnails not visible, return false
             if (_this.conf.showThumbnails == false)
                 return false;
             var /** @type {?} */ thumbnailParams = _this.thumbnailsRenderParams;
             _this.thumbnailMargin = '0 ' + (thumbnailParams.newThumbnailMargin / 2) + 'px';
         }, 300);
-        this.debouncedPrev = lodash.debounce(function () { return _this.prev(); }, 100, { 'leading': true, 'trailing': false });
-        this.debouncedNext = lodash.debounce(function () { return _this.next(); }, 100, { 'leading': true, 'trailing': false });
+        this.debouncedPrev = lodash_debounce.debounce(function () { return _this.prev(); }, 100, { 'leading': true, 'trailing': false });
+        this.debouncedNext = lodash_debounce.debounce(function () { return _this.next(); }, 100, { 'leading': true, 'trailing': false });
     }
     Object.defineProperty(NgxImageGalleryComponent.prototype, "activeImage", {
         /**
@@ -143,7 +151,7 @@ var NgxImageGalleryComponent = (function () {
      * @return {?}
      */
     NgxImageGalleryComponent.prototype.setGalleryConf = function (conf) {
-        this.conf = lodash.assign(DEFAULT_CONF, conf);
+        this.conf = __assign({}, DEFAULT_CONF, conf);
     };
     /**
      * @param {?} index
@@ -206,34 +214,6 @@ var NgxImageGalleryComponent = (function () {
         this.thumbnailsScrollerLeftMargin = thumbnailParams.thumbnailsScrollerLeftMargin;
     };
     /**
-     * @param {?} event
-     * @return {?}
-     */
-    NgxImageGalleryComponent.prototype.onKeyboardInput = function (event) {
-        if (this.conf.reactToKeyboard && this.opened && !this.loading) {
-            if (KEY_CODES[event.keyCode] == 'RIGHT') {
-                this.next();
-            }
-            else if (KEY_CODES[event.keyCode] == 'LEFT') {
-                this.prev();
-            }
-            else if ((KEY_CODES[event.keyCode] == 'ESC') && this.conf.closeOnEsc) {
-                this.close();
-            }
-        }
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NgxImageGalleryComponent.prototype.onWindowResize = function (event) {
-        var _this = this;
-        if (this.opened && !this.loading) {
-            this.fitThumbnails();
-            setTimeout(function () { return _this.scrollThumbnails(); }, 300);
-        }
-    };
-    /**
      * @return {?}
      */
     NgxImageGalleryComponent.prototype.ngOnInit = function () {
@@ -269,6 +249,34 @@ var NgxImageGalleryComponent = (function () {
             if (this.images.length) {
                 this.activateImage(0);
             }
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NgxImageGalleryComponent.prototype.onKeyboardInput = function (event) {
+        if (this.conf.reactToKeyboard && this.opened && !this.loading) {
+            if (KEY_CODES[event.keyCode] == 'RIGHT') {
+                this.next();
+            }
+            else if (KEY_CODES[event.keyCode] == 'LEFT') {
+                this.prev();
+            }
+            else if ((KEY_CODES[event.keyCode] == 'ESC') && this.conf.closeOnEsc) {
+                this.close();
+            }
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NgxImageGalleryComponent.prototype.onWindowResize = function (event) {
+        var _this = this;
+        if (this.opened && !this.loading) {
+            this.fitThumbnails();
+            setTimeout(function () { return _this.scrollThumbnails(); }, 300);
         }
     };
     /**
